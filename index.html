@@ -794,9 +794,38 @@
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             width: 0;
             transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Tool badges */
+        .skill-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255,255,255,0.3) 50%,
+                transparent 100%
+            );
+            animation: shimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .skill-bar-track {
+            height: 8px;
+            background: var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
         .tools-cloud {
             display: flex;
             flex-wrap: wrap;
@@ -1573,14 +1602,14 @@
                         <i class="fas fa-envelope"></i>
                         <div>
                             <div class="label">Email</div>
-                            <div class="value">email@anda.com</div>
+                            <div class="value">mostpad09@gmail.com</div>
                         </div>
                     </div>
                     <div class="about-detail-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <div>
                             <div class="label">Lokasi</div>
-                            <div class="value">Jakarta, Indonesia</div>
+                            <div class="value">Sukabumi, Jawa Barat</div>
                         </div>
                     </div>
                     <div class="about-detail-item">
@@ -1892,21 +1921,21 @@
                         <div class="icon-box"><i class="fas fa-envelope"></i></div>
                         <div class="info">
                             <h4>Email</h4>
-                            <p>email@anda.com</p>
+                            <p>mostpad09@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
-                        <div class="icon-box"><i class="fas fa-phone-alt"></i></div>
+                        <div class="icon-box"><i class="fab fa-whatsapp"></i></div>
                         <div class="info">
-                            <h4>Telepon</h4>
-                            <p>+62 812 3456 7890</p>
+                            <h4>WhatsApp</h4>
+                            <p><a href="https://wa.me/6283155706265" target="_blank" style="color: inherit; text-decoration: none;">+62 831 5570 6265</a></p>
                         </div>
                     </div>
                     <div class="contact-item">
                         <div class="icon-box"><i class="fas fa-map-marker-alt"></i></div>
                         <div class="info">
                             <h4>Lokasi</h4>
-                            <p>Jakarta, Indonesia</p>
+                            <p>Sukabumi, Jawa Barat</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -1987,7 +2016,8 @@
         <div class="footer-col">
             <h4>Kontak</h4>
             <ul>
-                <li><a href="mailto:email@anda.com">Email</a></li>
+                <li><a href="mailto:mostpad09@gmail.com">Email</a></li>
+                <li><a href="https://wa.me/6283155706265" target="_blank">WhatsApp</a></li>
                 <li><a href="https://github.com/EatCodeAll" target="_blank">GitHub</a></li>
             </ul>
         </div>
@@ -2157,6 +2187,24 @@
             if (width) {
                 fill.style.width = width + '%';
             }
+        });
+
+        // Animasi counter persentase
+        const percents = document.querySelectorAll('.skill-bar-header .percent');
+        percents.forEach(el => {
+            const target = parseInt(el.textContent);
+            if (isNaN(target)) return;
+            el.textContent = '0%';
+            let current = 0;
+            const step = Math.max(1, Math.floor(target / 40));
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = current + '%';
+            }, 30);
         });
     }
 
